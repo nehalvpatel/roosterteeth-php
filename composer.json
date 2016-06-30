@@ -1,0 +1,35 @@
+{
+    "name": "nehalvpatel/roosterteeth-php",
+    "description": "A PHP interface to the Rooster Teeth API.",
+    "homemage": "https://github.com/nehalvpatel/roosterteeth-php",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nehal Patel",
+            "email": "nehal.patel@me.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"RoosterTeeth\\": "src/RoosterTeeth"
+    	}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RoosterTeeth\\": "tests/RoosterTeeth"
+        }
+    },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
+    }
+}

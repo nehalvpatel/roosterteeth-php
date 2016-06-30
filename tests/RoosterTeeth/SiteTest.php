@@ -2,35 +2,40 @@
 
 class SiteTest extends \PHPUnit_Framework_TestCase
 {
-	private $site;
+	protected static $site;
 
-	public function setUp()
+	public static function setUpBeforeClass()
 	{
 		$base = new \RoosterTeeth\Base();
-		$this->site = $base->getSite("funhaus");
+		self::$site = $base->getSite("funhaus");
 	}
 
 	public function testGetName()
 	{
-		$result = $this->site->getName();
+		$result = self::$site->getName();
 		$this->assertEquals("funhaus", $result);
 	}
 
 	public function testGetRecentEpisodes()
 	{
-		$result = $this->site->getRecentEpisodes();
+		$result = self::$site->getRecentEpisodes();
 		$this->assertEquals(20, count($result));
 	}
 
 	public function testGetAllShows()
 	{
-		$result = $this->site->getAllShows();
+		$result = self::$site->getAllShows();
 		$this->assertGreaterThan(0, count($result));
 	}
 
 	public function testGetShows()
 	{
-		$result = $this->site->getShows();
+		$result = self::$site->getShows();
 		$this->assertGreaterThan(0, count($result));
+	}
+
+	public static function tearDownAfterClass()
+	{
+		self::$site = null;
 	}
 }

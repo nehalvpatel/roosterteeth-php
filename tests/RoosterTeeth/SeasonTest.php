@@ -2,59 +2,64 @@
 
 class SeasonTest extends \PHPUnit_Framework_TestCase
 {
-	private $season;
+	protected static $season;
 
-	public function setUp()
+	public static function setUpBeforeClass()
 	{
 		$base = new \RoosterTeeth\Base();
-		$this->season = $base->getSeason(423);
+		self::$season = $base->getSeason(423);
 	}
 
 	public function testGetID()
 	{
-		$result = $this->season->getID();
+		$result = self::$season->getID();
 		$this->assertEquals("423", $result);
 	}
 
 	public function testGetTitle()
 	{
-		$result = $this->season->getTitle();
+		$result = self::$season->getTitle();
 		$this->assertEquals("2016", $result);
 	}
 
 	public function testGetDescription()
 	{
-		$result = $this->season->getDescription();
+		$result = self::$season->getDescription();
 		$this->assertEquals("", $result);
 	}
 
 	public function testGetNumber()
 	{
-		$result = $this->season->getNumber();
+		$result = self::$season->getNumber();
 		$this->assertEquals("1", $result);
 	}
 
 	public function testGetSlug()
 	{
-		$result = $this->season->getSlug();
+		$result = self::$season->getSlug();
 		$this->assertEquals("theater-mode-2016", $result);
 	}
 
 	public function testGetShow()
 	{
-		$result = $this->season->getShow()->getID();
+		$result = self::$season->getShow()->getID();
 		$this->assertEquals("258", $result);
 	}
 
 	public function testGetAllEpisodes()
 	{
-		$result = $this->season->getAllEpisodes();
+		$result = self::$season->getAllEpisodes();
 		$this->assertGreaterThan(0, count($result));
 	}
 
 	public function testGetEpisodes()
 	{
-		$result = $this->season->getEpisodes();
+		$result = self::$season->getEpisodes();
 		$this->assertGreaterThan(0, count($result));
+	}
+
+	public static function tearDownAfterClass()
+	{
+		self::$season = null;
 	}
 }

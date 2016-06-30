@@ -2,109 +2,115 @@
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
-	private $user;
-	private $user2;
+	protected static $user;
+	protected static $user2;
 
-	public function setUp()
+	public static function setUpBeforeClass()
 	{
 		$base = new \RoosterTeeth\Base();
-		$this->user = $base->getUser(3);
-		$this->user2 = $base->getUser(1116206);
+		self::$user = $base->getUser(3);
+		self::$user2 = $base->getUser(1116206);
 	}
 
 	public function testGetCleanAbout()
 	{
-		$result = $this->user->getCleanAbout();
+		$result = self::$user->getCleanAbout();
 		$this->assertEquals("", $result);
 	}
 
 	public function testGetHTMLAbout()
 	{
-		$result = $this->user->getHTMLAbout();
+		$result = self::$user->getHTMLAbout();
 		$this->assertEquals("", $result);
 	}
 
 	public function testGetCanonicalURL()
 	{
-		$result = $this->user->getCanonicalURL();
+		$result = self::$user->getCanonicalURL();
 		$this->assertEquals("http://www.roosterteeth.com/user/gus", $result);
 	}
 
 	public function testGetCoverPicture()
 	{
-		$result = $this->user->getCoverPicture();
+		$result = self::$user->getCoverPicture();
 		$this->assertEquals("picture", $result["type"]);
 	}
 
 	public function testGetDisplayTitle()
 	{
-		$result = $this->user->getDisplayTitle();
+		$result = self::$user->getDisplayTitle();
 		$this->assertEquals("Elite Staff", $result);
 	}
 
 	public function testGetHasUsedTrial()
 	{
-		$result = $this->user->getHasUsedTrial();
+		$result = self::$user->getHasUsedTrial();
 		$this->assertFalse($result);
 	}
 
 	public function testGetID()
 	{
-		$result = $this->user->getID();
+		$result = self::$user->getID();
 		$this->assertEquals("3", $result);
 	}
 
 	public function testGetLocation()
 	{
-		$result = $this->user->getLocation();
+		$result = self::$user->getLocation();
 		$this->assertEquals("Austin, TX", $result);
 	}
 
 	public function testGetName()
 	{
-		$result = $this->user->getName();
+		$result = self::$user->getName();
 		$this->assertEquals("Gustavo Sorola", $result);
 	}
 
 	public function testGetOccupation()
 	{
-		$result = $this->user->getOccupation();
+		$result = self::$user->getOccupation();
 		$this->assertEquals("Tall Mexican", $result);
 	}
 
 	public function testGetAllQueued()
 	{
-		$result = $this->user2->getAllQueued();
+		$result = self::$user2->getAllQueued();
 		$this->assertGreaterThan(0, count($result));
 	}
 
 	public function testGetQueue()
 	{
-		$result = $this->user2->getQueue();
+		$result = self::$user2->getQueue();
 		$this->assertGreaterThan(0, count($result));
 	}
 
 	public function testGetProfilePicture()
 	{
-		$result = $this->user->getProfilePicture();
+		$result = self::$user->getProfilePicture();
 		$this->assertEquals("picture", $result["type"]);
 	}
 
 	public function testGetSex()
 	{
-		$result = $this->user->getSex();
+		$result = self::$user->getSex();
 		$this->assertEquals("m", $result);
 	}
 
 	public function testGetSponsor()
 	{
-		$result = $this->user->getSponsor();
+		$result = self::$user->getSponsor();
 		$this->assertTrue($result);
 	}
 
 	public function testGetUsername()
 	{
-		$result = $this->user->getUsername();
+		$result = self::$user->getUsername();
 		$this->assertEquals("gus", $result);
+	}
+
+	public static function tearDownAfterClass()
+	{
+		self::$user = null;
+		self::$user2 = null;
 	}
 }

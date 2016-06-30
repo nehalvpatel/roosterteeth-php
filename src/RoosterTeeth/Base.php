@@ -16,6 +16,7 @@ class Base
 		"recent" => "feed",
 		"episode" => "episodes/%s",
 		"episodes" => "seasons/%s/episodes",
+		"queue" => "users/%s/queue",
 		"season" => "seasons/%s",
 		"seasons" => "shows/%s/seasons",
 		"show" => "shows/%s",

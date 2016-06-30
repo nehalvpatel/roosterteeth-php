@@ -1,5 +1,8 @@
 <?php namespace RoosterTeeth;
 
+use \GuzzleHttp\Client;
+use \GuzzleHttp\Psr7\Request;
+
 class User
 {
 
@@ -60,6 +63,33 @@ class User
 	function getOccupation()
 	{
 		return $this->_user_data["occupation"];
+	}
+
+	function getAllQueued($delimiter = 20)
+	{
+		$all_episodes = $this->_base->iterateAllEntries($this, "getQueue", $delimiter);
+		return $all_episodes;
+	}
+
+	function getQueue($count = 20, $page = 1)
+	{
+		$queue_data = array(
+			"count" => $count,
+			"page" => $page
+		);
+
+		$queue_request = new Request("GET", sprintf($this->_base->_endpoint_urls["queue"], $this->getID()));
+		$queue_response = $this->_base->_session->send($queue_request, ["query" => $queue_data, "headers" => $this->_base->_access_token]);
+		$queue_json = json_decode($queue_response->getBody(), true);
+
+		$episodes = array();
+		foreach ($queue_json as $episodes_data)
+		{
+			$episode = new Episode($episodes_data, $this->_base);
+			$episodes[] = $episode;
+		}
+		
+		return $episodes;
 	}
 
 	function getProfilePicture()

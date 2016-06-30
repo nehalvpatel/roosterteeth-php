@@ -3,11 +3,13 @@
 class UserTest extends \PHPUnit_Framework_TestCase
 {
 	private $user;
+	private $user2;
 
 	public function setUp()
 	{
 		$base = new \RoosterTeeth\Base();
 		$this->user = $base->getUser(3);
+		$this->user2 = $base->getUser(1116206);
 	}
 
 	public function testGetCleanAbout()
@@ -68,6 +70,18 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	{
 		$result = $this->user->getOccupation();
 		$this->assertEquals("Tall Mexican", $result);
+	}
+
+	public function testGetAllQueued()
+	{
+		$result = $this->user2->getAllQueued();
+		$this->assertGreaterThan(0, count($result));
+	}
+
+	public function testGetQueue()
+	{
+		$result = $this->user2->getQueue();
+		$this->assertGreaterThan(0, count($result));
 	}
 
 	public function testGetProfilePicture()

@@ -79,9 +79,16 @@ class Episode
 
 	function getWatched()
 	{
-		if ($this->_episode_data["watched"] == "watched")
+		if (isset($this->_episode_data["watched"]))
 		{
-			return true;
+			if ($this->_episode_data["watched"] == "watched")
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

@@ -19,7 +19,8 @@ class Base
 		"season" => "seasons/%s",
 		"seasons" => "shows/%s/seasons",
 		"show" => "shows/%s",
-		"shows" => "shows"
+		"shows" => "shows",
+		"user" => "users/%s"
 	];
 
 	function __construct($username = "", $password = "")
@@ -65,6 +66,15 @@ class Base
 		return new Site($site_name, $this);
 	}
 	
+	function getUser($user_id)
+	{
+		$user_request = new Request("GET", sprintf($this->_endpoint_urls["user"], $user_id));
+		$user_response = $this->_session->send($user_request, ["headers" => $this->_access_token]);
+		$user_json = json_decode($user_response->getBody(), true);
+
+		return new User($user_json, $this);
+	}
+
 	function getShow($show_id)
 	{
 		$show_request = new Request("GET", sprintf($this->_endpoint_urls["show"], $show_id));

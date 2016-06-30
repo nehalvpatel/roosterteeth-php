@@ -82,6 +82,18 @@ class EpisodeTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals("video", $result["videos"][0]["type"]);
 	}
 
+	public function testGetSponsorOnly()
+	{
+		$result = $this->episode->getSponsorOnly();
+		$this->assertFalse($result);
+	}
+
+	public function testGetWatched()
+	{
+		$result = $this->episode->getWatched();
+		$this->assertFalse($result);
+	}
+
 	public function testGetShow()
 	{
 		$result = $this->episode->getShow(71);

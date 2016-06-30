@@ -71,6 +71,23 @@ class Episode
 	{
 		return $this->_episode_data["media"];
 	}
+
+	function getSponsorOnly()
+	{
+		return filter_var($this->_episode_data["sponsorOnly"], FILTER_VALIDATE_BOOLEAN);
+	}
+
+	function getWatched()
+	{
+		if ($this->_episode_data["watched"] == "watched")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	function getShow()
 	{

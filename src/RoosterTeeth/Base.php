@@ -16,6 +16,7 @@ class Base
 		"recent" => "feed",
 		"episode" => "episodes/%s",
 		"episodes" => "seasons/%s/episodes",
+		"live" => "live",
 		"queue" => "users/%s/queue",
 		"season" => "seasons/%s",
 		"seasons" => "shows/%s/seasons",
@@ -101,6 +102,33 @@ class Base
 		$episode_json = json_decode($episode_response->getBody(), true);
 
 		return new Episode($episode_json, $this);
+	}
+
+	function getAllLiveStreams()
+	{
+		$all_streams = $this->iterateAllEntries($this, "getLiveStreams", $delimiter);
+		return $all_streams;
+	}
+
+	function getLiveStreams($count = 20, $page = 1)
+	{
+		$live_data = array(
+			"count" => $count,
+			"page" => $page
+		);
+		
+		$live_request = new Request("GET", $this->_endpoint_urls["live"]);
+		$live_response = $this->_session->send($live_request, ["query" => $live_data, "headers" => $this->_access_token]);
+		$live_json = json_decode($live_response->getBody(), true);
+		
+		$streams = array();
+		foreach ($live_json as $stream_data)
+		{
+			$stream = new LiveStream($stream_data, $this);
+			$streams[] = $stream;
+		}
+		
+		return $streams;
 	}
 
 	function getRecentEpisodes($site = "", $count = 20, $page = 1)

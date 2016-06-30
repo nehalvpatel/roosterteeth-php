@@ -9,7 +9,7 @@ class Base
 	public $_session = null;
 	public $_access_token = null;
 
-	const API_ENDPOINT = "http://www.roosterteeth.com/api/v1/";
+	const API_ENDPOINT = "https://www.roosterteeth.com/api/v1/";
 	
 	public $_endpoint_urls = [
 		"authorize" => "/authorization/oauth-access-token",

@@ -9,6 +9,12 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		self::$base = new \RoosterTeeth\Base();
 	}
 
+	public function testIsUsernameAvailable()
+	{
+		$result = self::$base->isUsernameAvailable("gus");
+		$this->assertFalse($result);
+	}
+
 	public function testGetSite()
 	{
 		$result = self::$base->getSite("funhaus");

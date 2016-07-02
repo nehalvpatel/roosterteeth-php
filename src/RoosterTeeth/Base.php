@@ -17,12 +17,14 @@ class Base
 		"episode" => "episodes/%s",
 		"episodes" => "seasons/%s/episodes",
 		"live" => "live",
+		"register" => "register",
 		"queue" => "users/%s/queue",
 		"season" => "seasons/%s",
 		"seasons" => "shows/%s/seasons",
 		"show" => "shows/%s",
 		"shows" => "shows",
-		"user" => "users/%s"
+		"user" => "users/%s",
+		"username" => "users/username-exists/%s"
 	];
 
 	function __construct($username = "", $password = "")
@@ -61,6 +63,39 @@ class Base
 		$access_token = $auth_json["access_token"];
 		
 		$this->_access_token = ["Authorization" => $access_token];
+	}
+
+	function registerUser($username, $email, $password)
+	{
+		$register_data = array(
+			"username" => $username,
+			"email" => $email,
+			"password" => $password,
+			"password_confirmation" => $password
+		);
+		
+		try
+		{
+			$register_request = new Request("POST", $this->_endpoint_urls["register"]);
+			$register_response = $this->_session->send($register_request, ["form_params" => $register_data, "headers" => $this->_access_token]);
+			$register_json = json_decode($register_response->getBody(), true);
+
+			return new User($register_json, $this);
+		}
+		catch (\GuzzleHttp\Exception\ClientException $e)
+		{
+			$error_json = json_decode($e->getResponse()->getBody(), true);
+			throw new \Exception ($error_json["message"]);
+		}
+	}
+
+	function isUsernameAvailable($username)
+	{
+		$username_request = new Request("GET", sprintf($this->_endpoint_urls["username"], $username));
+		$username_response = $this->_session->send($username_request, ["headers" => $this->_access_token]);
+		$username_json = json_decode($username_response->getBody(), true);
+
+		return !filter_var($username_json["exists"], FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	function getSite($site_name)

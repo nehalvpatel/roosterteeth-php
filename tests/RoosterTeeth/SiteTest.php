@@ -13,7 +13,7 @@ class SiteTest extends \PHPUnit_Framework_TestCase
 	public function testGetName()
 	{
 		$result = self::$site->getName();
-		$this->assertEquals("funhaus", $result);
+		$this->assertInternalType("string", $result);
 	}
 
 	public function testGetRecentEpisodes()

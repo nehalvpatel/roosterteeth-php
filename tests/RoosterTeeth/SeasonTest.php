@@ -13,37 +13,37 @@ class SeasonTest extends \PHPUnit_Framework_TestCase
 	public function testGetID()
 	{
 		$result = self::$season->getID();
-		$this->assertEquals("423", $result);
+		$this->assertInternalType("integer", $result);
 	}
 
 	public function testGetTitle()
 	{
 		$result = self::$season->getTitle();
-		$this->assertEquals("2016", $result);
+		$this->assertInternalType("string", $result);
 	}
 
 	public function testGetDescription()
 	{
 		$result = self::$season->getDescription();
-		$this->assertEquals("", $result);
+		$this->assertInternalType("string", $result);
 	}
 
 	public function testGetNumber()
 	{
 		$result = self::$season->getNumber();
-		$this->assertEquals("1", $result);
+		$this->assertInternalType("integer", $result);
 	}
 
 	public function testGetSlug()
 	{
 		$result = self::$season->getSlug();
-		$this->assertEquals("theater-mode-2016", $result);
+		$this->assertInternalType("string", $result);
 	}
 
 	public function testGetShow()
 	{
-		$result = self::$season->getShow()->getID();
-		$this->assertEquals("258", $result);
+		$result = self::$season->getShow();
+		$this->assertInstanceOf(\RoosterTeeth\Show::class, $result);
 	}
 
 	public function testGetAllEpisodes()

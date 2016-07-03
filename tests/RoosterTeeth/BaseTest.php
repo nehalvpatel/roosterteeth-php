@@ -12,37 +12,39 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	public function testIsUsernameAvailable()
 	{
 		$result = self::$base->isUsernameAvailable("gus");
-		$this->assertFalse($result);
+		$this->assertInternalType("boolean", $result);
 	}
 
 	public function testGetSite()
 	{
 		$result = self::$base->getSite("funhaus");
-		$this->assertEquals("funhaus", $result->getName());
+		$this->assertInstanceOf(\RoosterTeeth\Site::class, $result);
 	}
 
 	public function testGetShow()
 	{
 		$result = self::$base->getShow(71);
-		$this->assertEquals("Rooster Teeth Podcast", $result->getName());
+		$this->assertInstanceOf(\RoosterTeeth\Show::class, $result);
 	}
 
 	public function testGetSeason()
 	{
 		$result = self::$base->getSeason(351);
-		$this->assertEquals(2016, $result->getNumber());
+		$this->assertInstanceOf(\RoosterTeeth\Season::class, $result);
 	}
 
 	public function testGetEpisode()
 	{
 		$result = self::$base->getEpisode(28807);
-		$this->assertEquals("Getting Snoop Dogg With High - #382", $result->getTitle());
+		$this->assertInstanceOf(\RoosterTeeth\Episode::class, $result);
 	}
 
 	public function testGetRecentEpisodes()
 	{
-		$result = self::$base->getRecentEpisodes();
-		$this->assertEquals(20, count($result));
+		$episode_count = 20;
+
+		$result = self::$base->getRecentEpisodes("", $episode_count);
+		$this->assertEquals($episode_count, count($result));
 	}
 
 	public function testIterateAllEntries()

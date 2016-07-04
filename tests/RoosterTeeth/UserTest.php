@@ -109,6 +109,5 @@ class UserTest extends \PHPUnit_Framework_TestCase
 	public static function tearDownAfterClass()
 	{
 		self::$user = null;
-		self::$user2 = null;
 	}
 }

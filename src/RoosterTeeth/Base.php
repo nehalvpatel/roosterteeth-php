@@ -8,6 +8,7 @@ class Base
 
 	public $_session = null;
 	public $_access_token = null;
+	private $_current_user = null;
 
 	const API_ENDPOINT = "https://www.roosterteeth.com/api/v1/";
 	
@@ -15,10 +16,13 @@ class Base
 		"authorize" => "/authorization/oauth-access-token",
 		"recent" => "feed",
 		"episode" => "episodes/%s",
+		"episode_watched" => "episodes/%s/mark-as-watched",
 		"episodes" => "seasons/%s/episodes",
 		"live" => "live",
 		"register" => "register",
 		"queue" => "users/%s/queue",
+		"queue_add" => "episodes/%s/add-to-queue",
+		"queue_remove" => "episodes/%s/remove-from-queue",
 		"season" => "seasons/%s",
 		"seasons" => "shows/%s/seasons",
 		"show" => "shows/%s",
@@ -30,14 +34,7 @@ class Base
 	function __construct($username = "", $password = "")
 	{
 		$headers = [
-			"Host" => "www.roosterteeth.com",
-			"Content-Type" => "application/x-www-form-urlencoded; charset=utf-8",
-			"Accept" => "*/*",
-			"Connection" => "keep-alive",
-			"Proxy-Connection" => "keep-alive",
-			"User-Agent" => "Rooster Teeth/com.roosterteeth.roosterteeth (11; OS Version 9.3.1 (Build 13E238))",
-			"Accept-Language" => "en-US;q=1.0",
-			"Accept-Encoding" => "gzip;q=1.0, compress;q=0.5"
+			"User-Agent" => "Rooster Teeth/com.roosterteeth.roosterteeth (11; OS Version 9.3.2 (Build 13F69))"
 		];
 		
 		$this->_session = new Client(["base_uri" => self::API_ENDPOINT, "cookies" => true, "headers" => $headers]);
@@ -63,6 +60,21 @@ class Base
 		$access_token = $auth_json["access_token"];
 		
 		$this->_access_token = ["Authorization" => $access_token];
+
+		if ($auth_response->hasHeader("X-User-Id"))
+		{
+			$user_id = $auth_response->getHeader("X-User-Id")[0];
+
+			if (is_int($user_id))
+			{
+				$this->_current_user = $this->getUser($user_id);
+			}
+		}
+	}
+
+	function currentUser()
+	{
+		return $this->_current_user;
 	}
 
 	function registerUser($username, $email, $password)

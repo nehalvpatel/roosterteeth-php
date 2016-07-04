@@ -11,6 +11,11 @@ class Episode
 		$this->_episode_data = $episode_data;
 		$this->_base = $base;
 	}
+
+	function __toString()
+	{
+		return strval($this->getID());
+	}
 	
 	function getID()
 	{

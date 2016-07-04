@@ -3,7 +3,6 @@
 class UserTest extends \PHPUnit_Framework_TestCase
 {
 	protected static $user;
-	protected static $user2;
 
 	public static function setUpBeforeClass()
 	{
